@@ -1,22 +1,15 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Visualizaiton from './components/Visualization';
+import Visualization from './components/Visualization';
+import {graphSampleData} from './sampleData.js';
+
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Visualizaiton />
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Visualization graph={graphSampleData}/>
       </header>
     </div>
   );
