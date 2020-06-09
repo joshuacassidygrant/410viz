@@ -1,23 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import './App.css';
 import Visualizaiton from './components/Visualization';
+import URLList from './components/URLList';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <body className="App-header">
+        <Header/>
+        <NavBar/>
+        <h1>Network Diagram Builder</h1>
+        <URLList/>
         <Visualizaiton />
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </body>
     </div>
   );
 }
