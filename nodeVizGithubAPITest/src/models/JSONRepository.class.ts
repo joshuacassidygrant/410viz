@@ -15,7 +15,8 @@ export default class JSONRepository {
 
   private extractRepositoryDetails () {
     const { id, name, description, url, collaborators_url: collaborators } = this.data
-    return new Repository (id, name, description, url, collaborators)
+    this.repository = new Repository (id, name, description, url, collaborators)
+    return true
   }
   
   private extractOwnerDetails () {
@@ -27,12 +28,13 @@ export default class JSONRepository {
       followers_url: followers, 
       following_url: following
     } = owner 
-    return new Owner (id, name, url, avatar, followers, following)
+    this.owner = new Owner (id, name, url, avatar, followers, following)
+    return true
   }
   
   public extractRepositoryData (): boolean {
-    this.repository = this.extractRepositoryDetails ()
-    this.owner = this.extractOwnerDetails ()
+    this.extractRepositoryDetails ()
+    this.extractOwnerDetails ()
     return true
   }
 }
