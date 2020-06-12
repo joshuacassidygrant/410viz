@@ -25,29 +25,34 @@ var data;
 
 // TODO - buildData from user input and hook up to analyze button
 async function buildData() {
-  buildRepo()
-  buildContributors()
-  buildFollowers()
+  await buildRepo()
+  await buildContributors()
+  await buildFollowers()
   data = new GraphData(nodes, edges)
   console.log("Data: ", data)
 }
 
 async function buildRepo() {
+  console.log("inside build repo")
   for (var i = 0; i < mockRepoURLs.length; i++) {
     const params = mockRepoURLs[i].match(/.*\/(.*)\/(.*)$/)
     var URLOwner = params[1]
     var URLName = params[2]
     console.log("buildData URL:", mockRepoURLs[i])
     var repoData = await fetchRepo(URLOwner, URLName);
-    var id = repoData["id"]
-    var name = repoData["name"]
-    var owner = repoData["owner"]["login"]
-    var node = new GraphNode(id, name, "repo", owner);
-    nodes.push(node)
+    console.log("repoData:", repoData)
+    if (repoData) {
+      var id = repoData["id"]
+      var name = repoData["name"]
+      var owner = repoData["owner"]["login"]
+      var node = new GraphNode(id, name, "repo", owner);
+      nodes.push(node)
+    }
   }
 }
 
 async function buildContributors() {
+  console.log("build contributors")
   for (const node of nodes) {
     var nodeName = node.label
     var nodeOwner = node.title

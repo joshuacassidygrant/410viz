@@ -1,25 +1,28 @@
 import axios from 'axios'
 
-const baseURL = 'https://api.github.com/' 
+const baseURL = 'https://api.github.com' 
 
 export async function fetchRepo(owner: string, repo: string) {
   var user = process.env.REACT_APP_USER!
   var pass = process.env.REACT_APP_PASS!
-  console.log("HERE:", user, pass)
+
   try {
-    axios.get(baseURL + `/repos/${owner}/${repo}`, {
+    await axios.get(baseURL + `/repos/${owner}/${repo}`, {
       auth: {
         username: user,
         password: pass
       }
     })
-    .then (res => {
-      console.log("Repository")
-      return res.data;
+    .then(res => {
+      console.log("RESULT", res)
+      return true
     })
-  } catch (e) {
-    console.error(e)
   }
+  catch (e) {
+    console.log("Error", e)
+    return null
+  }
+
 }
 
 export async function fetchContributors(owner: string, repo: string) {
