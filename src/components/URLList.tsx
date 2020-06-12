@@ -3,15 +3,14 @@ import '../style/submit.css'
 import URLItem from "./URLItem";
 import URLItemData from './URLItemData';
 
-
 interface URLListProps {
 
 }
+
 interface URLListState {
   value: string,
   items: URLItemData[]
 }
-
 
 class URLList extends React.Component<URLListProps, URLListState> {
   public _inputElement: HTMLInputElement | null;
