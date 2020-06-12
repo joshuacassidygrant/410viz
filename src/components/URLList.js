@@ -59,7 +59,8 @@ class URLList extends React.Component {
             <label>
               <input type="text" id="myInput" placeholder="Input a GitHub URL" value={this.state.value} onChange={this.handleChange} ref={(a) => this._inputElement = a} />
             </label>
-            <input type="submit" value="Submit" className="addBtn"/>
+            <input type="submit" value="Add" className="addBtn"/>
+            <input type="submit" value="Analyze" className="addBtn"/>
           </form>
           </div>
           {/* TODO: Button to generate Viz from list of URLs */}
