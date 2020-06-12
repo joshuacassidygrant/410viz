@@ -1,32 +1,34 @@
 import React from 'react';
 import Graph from "react-graph-vis";
 import '../graph.css';
+import GraphData from './GraphData';
+import GraphNode from './GraphNode';
+import GraphEdge from './GraphEdge';
+    
+const options = {
+layout: {
+    hierarchical: true
+},
+nodes: {
+    shape: "hexagon",
+    color: {
+        border: "#ff4444",
+        background: "#eeeeee"
+    },
+    borderWidth: 2
+},
+edges: {
+    color: "#ff4444",
+    width: 2
+},
+height: "500px"
+};
 
-    
-    const options = {
-    layout: {
-        hierarchical: true
-    },
-    nodes: {
-        shape: "hexagon",
-        color: {
-            border: "#ff4444",
-            background: "#eeeeee"
-        },
-        borderWidth: 2
-    },
-    edges: {
-        color: "#ff4444",
-        width: 2
-    },
-    height: "500px"
-    };
-    
-    const events = {
-        select: function(event) {
-            var { nodes, edges } = event;
-        }
-    };
+const events = {
+    select: function(event: any) {
+        var { nodes, edges } = event;
+    }
+};
 
 
 const nodeClassesToProps = {
@@ -36,6 +38,8 @@ const nodeClassesToProps = {
             border: "#ff4444",
             background: "#eeeeee"
         },
+        mass: 50,
+        size: 50,
         borderWidth: 2
     },
     user: {
@@ -59,9 +63,13 @@ const edgeClassesToProps = {
     }
 }
 
-export default class Visualization extends React.Component {
-    
+interface VisualizationProps {
+    graph: GraphData
+}
 
+export default class Visualization extends React.Component<VisualizationProps> {
+    
+    public graph: GraphData = new GraphData([], []);
 
     componentWillMount() {
         this.graph = {
@@ -72,18 +80,11 @@ export default class Visualization extends React.Component {
 
     render() {
         return (
-            <Graph
-            graph={this.graph}
-            options={options}
-            events={events}
-            getNetwork={network => {
-                //  if you want access to vis.js network api you can set the state in a parent component using this property
-            }}
-            />
+            <Graph graph={this.graph} options={options} events={events} />
         )
     }
 
-    expandNodeClasses(list) {
+    expandNodeClasses(list: GraphNode[]) {
         return list.map(item => {
             if (nodeClassesToProps.hasOwnProperty(item.type)) {
                 return {...item, ...nodeClassesToProps[item.type]}
@@ -93,7 +94,7 @@ export default class Visualization extends React.Component {
     }
 
 
-    expandEdgeClasses(list) {
+    expandEdgeClasses(list: GraphEdge[]) {
         return list.map(item => {
             if (edgeClassesToProps.hasOwnProperty(item.type)) {
                 return {...item, ...edgeClassesToProps[item.type]}

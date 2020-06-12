@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import '../style/list.css'
+import URLItemData from "./URLItemData";
  
-class URLItem extends Component {
-    constructor(props) {
-        super(props);
-        this.createURL = this.createURL.bind(this);
-      }
+interface URLItemProps {
+  delete: (key: number) => void,
+  entries: URLItemData[]
+}
 
-      delete(key) {
-        this.props.delete(key);
-      }
+class URLItem extends Component<URLItemProps> {
+  constructor(props: URLItemProps) {
+    super(props);
+    this.createURL = this.createURL.bind(this);
+  }
 
-  createURL(item) {
+  delete(key:number) {
+    this.props.delete(key);
+  }
+
+  createURL(item: URLItemData){
         return <li onClick={() => this.delete(item.key)} 
                 key={item.key}>{item.text}</li>
   }
