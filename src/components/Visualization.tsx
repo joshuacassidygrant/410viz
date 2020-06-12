@@ -64,23 +64,39 @@ const edgeClassesToProps = {
 }
 
 interface VisualizationProps {
-    graph: GraphData
 }
 
-export default class Visualization extends React.Component<VisualizationProps> {
-    
-    public graph: GraphData = new GraphData([], []);
+interface VisualizationState {
+    graph: GraphData,
+    network: any
+}
 
-    componentWillMount() {
-        this.graph = {
-            nodes: this.expandNodeClasses(this.props.graph.nodes),
-            edges: this.expandEdgeClasses(this.props.graph.edges)
-        }
+export default class Visualization extends React.Component<VisualizationProps,VisualizationState> {
+    
+    constructor(props: VisualizationProps) {
+        super(props);
+        this.initNetworkInstance = this.initNetworkInstance.bind(this);
+        this.state = {
+            graph: new GraphData([], []),
+            network: null
+        };
+    }
+
+    initNetworkInstance(networkInstance: any) {
+        this.setState({network: networkInstance});
+    }
+    
+    update(data: GraphData) {
+        this.state.network.setData(new GraphData(this.expandNodeClasses(data.nodes), this.expandEdgeClasses(data.edges)));
     }
 
     render() {
         return (
-            <Graph graph={this.graph} options={options} events={events} />
+            <Graph 
+            graph={this.state.graph} 
+            options={options} 
+            events={events} 
+            getNetwork={this.initNetworkInstance}/>
         )
     }
 

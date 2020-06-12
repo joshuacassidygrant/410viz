@@ -5,7 +5,7 @@ import URLItemData from './URLItemData';
 
 
 interface URLListProps {
-
+  handleAnalyze: () => void
 }
 interface URLListState {
   value: string,
@@ -16,6 +16,11 @@ interface URLListState {
 class URLList extends React.Component<URLListProps, URLListState> {
   public _inputElement: HTMLInputElement | null;
 
+
+  public getItems = () => {
+    return this.state.items;
+  }
+
 	constructor(props: URLListProps) {
         super(props);
         this.state = {
@@ -23,8 +28,7 @@ class URLList extends React.Component<URLListProps, URLListState> {
           items: []
       };
 
-      this._inputElement = null;
-    
+        this._inputElement = null;
         this.handleChange = this.handleChange.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
@@ -45,13 +49,15 @@ class URLList extends React.Component<URLListProps, URLListState> {
       }
 
       addItem(e: any) {
+        e.preventDefault();
+
         if (this._inputElement?.value !== "") {
           let value:string = this._inputElement?.value || "Undefined";
           var newItem = new URLItemData(Math.floor(Date.now() / 1000), value);
-       
+
           this.setState((prevState) => {
             return { 
-              items: prevState.items.concat(newItem) 
+              items: [...prevState.items, newItem] 
             };
           });
          
@@ -63,28 +69,26 @@ class URLList extends React.Component<URLListProps, URLListState> {
             value: ''
           });
         }
-
-        e.preventDefault();
       }
     
       render() {
         return (
-          <body>
-            <div className="urlForm">
-          <form onSubmit={this.addItem}>
-            <label>
-              <input type="text" id="myInput" placeholder="Input a GitHub URL" value={this.state.value} onChange={this.handleChange} ref={(a) => this._inputElement = a} />
-            </label>
-            <input type="submit" value="Add" className="addBtn"/>
-            <input type="submit" value="Analyze" className="addBtn"/>
-          </form>
-          </div>
-          {/* TODO: Button to generate Viz from list of URLs */}
           <div>
-          <URLItem entries={this.state.items}
-          delete={this.deleteItem}/>
+              <div className="urlForm">
+            <form onSubmit={this.addItem}>
+              <label>
+                <input type="text" id="myInput" placeholder="Input a GitHub URL" value={this.state.value} onChange={this.handleChange} ref={(a) => this._inputElement = a} />
+              </label>
+              <input type="submit" value="Add" className="addBtn"/>
+              <input type="button" value="Analyze" className="addBtn" onClick={this.props.handleAnalyze}/>
+            </form>
+            </div>
+            {/* TODO: Button to generate Viz from list of URLs */}
+            <div>
+            <URLItem entries={this.state.items}
+            delete={this.deleteItem}/>
+            </div>
           </div>
-          </body>
         );
       }
 }
