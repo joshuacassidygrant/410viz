@@ -7,28 +7,40 @@ import axios from 'axios'
 const baseURL = 'https://api.github.com/' 
 
 export async function fetchRepo(owner: string, repo: string) {
-  axios.get(baseURL + `/repos/${owner}/${repo}`)
+  try {
+    axios.get(baseURL + `/repos/${owner}/${repo}`)
     .then (res => {
       console.log("Repository")
       return res.data;
     })
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export async function fetchContributors(owner: string, repo: string) {
-  axios.get(baseURL + `/repos/${owner}/${repo}/contributors`)
-  .then(res => {
-    const contributors = res.data;
-    console.log("Contributors", contributors)
-  })
+  try {
+    axios.get(baseURL + `/repos/${owner}/${repo}/contributors`)
+    .then(res => {
+      const contributors = res.data;
+      console.log("Contributors", contributors)
+    })
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 export async function fetchFollowing(follower: string, followee: string) {
-  axios.get(baseURL +`/users/${follower}/following/${followee}`)
+  try {
+    axios.get(baseURL +`/users/${follower}/following/${followee}`)
     .then(() => {
       return true;
     })
     .catch(() => {
       return false;
     })
+  } catch (e) {
+    console.error(e)
+  }
 }
 

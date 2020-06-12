@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import { fetchRepo, fetchContributors, fetchFollowing } from './server/api'
 import GraphNode from './models/GraphNode';
 import GraphEdge from './models/GraphEdge';
+import GraphData from './models/GraphData';
 
 // User max input is 5
 var mockRepoURLs = [
@@ -20,12 +21,15 @@ var mockRepoURLs = [
 
 var edges = []
 var nodes = []
+var data;
 
 // TODO - buildData from user input and hook up to analyze button
 async function buildData() {
   buildRepo()
   buildContributors()
   buildFollowers()
+  data = new GraphData(nodes, edges)
+  console.log("Data: ", data)
 }
 
 async function buildRepo() {
