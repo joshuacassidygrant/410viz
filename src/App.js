@@ -24,7 +24,6 @@ let nodes = []
 
 // TODO - buildData from user input and hook up to analyze button
 async function buildData() {
-
   buildRepo()
   buildContributors()
   fetchFollowing()
@@ -67,7 +66,9 @@ async function buildContributors() {
         contributor = new GraphNode(id, name, "user", contributions)
       }
     }
+    let edge = new GraphEdge(contributor.id, node.id, 'contributor')
     nodes.push(contributor)
+    edges.push(edge)
   }
 }
 
