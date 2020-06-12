@@ -1,14 +1,14 @@
 import axios from 'axios'
 
-function fetchRepository() {
+export function fetchRepo() {
   console.log('inside fetch repo')
 }
 
-function fetchContributors(user: string, repo: string) {
+export function fetchContributors(user: string, repo: string) {
   console.log('inside fetch contributors')
   axios.get('https://api.github.com/repos/twbs/bootstrap/contributors')
 }
 
-function fetchFollowing() {
+export function fetchFollowing() {
   console.log('inside fetch following')
 }

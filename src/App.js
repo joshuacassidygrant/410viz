@@ -7,8 +7,14 @@ import URLList from './components/URLList.tsx';
 import Header from './components/Header.tsx';
 import NavBar from './components/NavBar.tsx';
 
+// TODO: move to analyze button
+import { fetchRepo, fetchContributors, fetchFollowing } from './server/server'
+
 function test() {
   console.log("inside test")
+  fetchRepo()
+  fetchContributors()
+  fetchFollowing()
 }
 
 export default class App extends Component {

@@ -1,9 +1,9 @@
 import React from 'react';
 import Graph from "react-graph-vis";
 import '../graph.css';
-import GraphData from './GraphData';
-import GraphNode from './GraphNode';
-import GraphEdge from './GraphEdge';
+import GraphData from '../models/GraphData';
+import GraphNode from '../models/GraphNode';
+import GraphEdge from '../models/GraphEdge';
     
 const options = {
 layout: {
