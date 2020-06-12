@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Visualization from './components/Visualization.tsx';
+import Visualization from './components/Visualization';
 import {graphSampleData} from './sampleData.js';
-import URLList from './components/URLList.tsx';
-import Header from './components/Header.tsx';
-import NavBar from './components/NavBar.tsx';
+import URLList from './components/URLList';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
 import { fetchRepo, fetchContributors, fetchFollowing } from './server/api'
 import GraphNode from './models/GraphNode';
+import GraphEdge from './models/GraphEdge';
 
 // User max input is 5
 let mockRepoURLs = [
@@ -23,24 +24,60 @@ let nodes = []
 
 // TODO - buildData from user input and hook up to analyze button
 async function buildData() {
+
+  buildRepo()
+  buildContributors()
+  fetchFollowing()
+}
+
+async function buildRepo() {
+  
   for (var i = 0; i < mockRepoURLs.length; i++) {
-    console.log("buildData URL:", mockRepoURLs[i])
     const params = mockRepoURLs[i].match(/.*\/(.*)\/(.*)$/)
-    console.log("PARAMS", params)
-    let repoData = await fetchRepo(params[1], params[2]);
+    let owner = params[1]
+    let name = params[2]
+    console.log("buildData URL:", mockRepoURLs[i])
+    let repoData = await fetchRepo(owner, name);
     let id = repoData["id"]
     let name = repoData["name"]
-    let node = new GraphNode(id, name, "repo", name);
+    let owner = repoData["owner"]["login"]
+    let node = new GraphNode(id, name, "repo", owner);
     nodes.push(node)
   }
+}
 
-  fetchContributors("octocat", "Hello-World")
-  fetchFollowing()
+async function buildContributors() {
+  for (const node of nodes) {
+    let name = nodes[i].label
+    let owner = nodes[i].title
+    let contributorData = await fetchContributors(owner, name)
+    let contributor;
+    if (contributorData.length < 20) {
+      for (const contributor of contributorData) {
+        let id = contributor["id"]
+        let name = contributor["login"]
+        let contributions = contributor["contributions"]
+        contributor = new GraphNode(id, name, "user", contributions)
+      }
+    } else {
+      for (var i = 0; i < 20; i++) {
+        let id = contributorData[i]["id"]
+        let name = contributorData[i]["login"]
+        let contributions = contributorData["contributions"]
+        contributor = new GraphNode(id, name, "user", contributions)
+      }
+    }
+    nodes.push(contributor)
+  }
+}
+
+async function buildFollowers() {
+
 }
 
 export default class App extends Component {
   render () {
-    buildData ()
+    // buildData ()
     return (
       <div className="App">
   

@@ -10,7 +10,7 @@ import axios from 'axios'
 // /users/:username/following/:target_user
 const baseURL = 'https://api.github.com/' 
 
-export function fetchRepo(owner: string, repo: string) {
+export async function fetchRepo(owner: string, repo: string) {
   console.log('inside fetch repo')
   axios.get(baseURL + `/repos/${owner}/${repo}`)
     .then (res => {
@@ -19,7 +19,7 @@ export function fetchRepo(owner: string, repo: string) {
     })
 }
 
-export function fetchContributors(owner: string, repo: string) {
+export async function fetchContributors(owner: string, repo: string) {
   console.log('inside fetch contributors')
   axios.get(baseURL + `/repos/${owner}/${repo}/contributors`)
   .then(res => {
@@ -28,7 +28,7 @@ export function fetchContributors(owner: string, repo: string) {
   })
 }
 
-export function fetchFollowing() {
+export async function fetchFollowing() {
   console.log('inside fetch following')
 }
 
