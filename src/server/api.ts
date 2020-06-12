@@ -1,17 +1,12 @@
 import axios from 'axios'
 
-//REPO
-// 'https://api.github.com/repos/octocat/Hello-World'
+// REPO 'https://api.github.com/repos/octocat/Hello-World'
+// CONTRIBUTORS "http://api.github.com/repos/octocat/Hello-World/contributors"
+// FOLLOWING http://api.github.com/users/:username/following/:target_user
 
-// CONTRIBUTORS
-// "http://api.github.com/repos/octocat/Hello-World/contributors"
-
-// FOLLOWING
-// /users/:username/following/:target_user
 const baseURL = 'https://api.github.com/' 
 
 export async function fetchRepo(owner: string, repo: string) {
-  console.log('inside fetch repo')
   axios.get(baseURL + `/repos/${owner}/${repo}`)
     .then (res => {
       console.log("Repository")
@@ -20,7 +15,6 @@ export async function fetchRepo(owner: string, repo: string) {
 }
 
 export async function fetchContributors(owner: string, repo: string) {
-  console.log('inside fetch contributors')
   axios.get(baseURL + `/repos/${owner}/${repo}/contributors`)
   .then(res => {
     const contributors = res.data;
@@ -28,10 +22,13 @@ export async function fetchContributors(owner: string, repo: string) {
   })
 }
 
-export async function fetchFollowing() {
-  console.log('inside fetch following')
+export async function fetchFollowing(follower: string, followee: string) {
+  axios.get(baseURL +`/users/${follower}/following/${followee}`)
+    .then(() => {
+      return true;
+    })
+    .catch(() => {
+      return false;
+    })
 }
 
-function buildContributors() {
-  
-}

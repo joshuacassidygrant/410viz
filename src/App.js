@@ -26,11 +26,10 @@ let nodes = []
 async function buildData() {
   buildRepo()
   buildContributors()
-  fetchFollowing()
+  buildFollowers()
 }
 
 async function buildRepo() {
-  
   for (var i = 0; i < mockRepoURLs.length; i++) {
     const params = mockRepoURLs[i].match(/.*\/(.*)\/(.*)$/)
     let owner = params[1]
@@ -73,7 +72,25 @@ async function buildContributors() {
 }
 
 async function buildFollowers() {
+  let users = []
+  for (const node in nodes) {
+    if (node.type == 'user') {
+      users.push(node)
+    }
+  }
 
+  for (var i = 0; i < users.length; i++) {
+    for (var j = 0; j < users.length; j++) {
+      if (i == j) return
+      else {
+        isFollowing_j = await fetchFollowing(users[i].label, users[j].label)
+        if (isFollowing_j) {
+          let edge = new GraphEdge(users[i].id, users[j].id, 'friend')
+          edges.push(edge)
+        }
+      }
+    }
+  }
 }
 
 export default class App extends Component {
