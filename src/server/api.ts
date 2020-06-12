@@ -1,14 +1,18 @@
 import axios from 'axios'
 
-// REPO 'https://api.github.com/repos/octocat/Hello-World'
-// CONTRIBUTORS "http://api.github.com/repos/octocat/Hello-World/contributors"
-// FOLLOWING http://api.github.com/users/:username/following/:target_user
-
 const baseURL = 'https://api.github.com/' 
 
 export async function fetchRepo(owner: string, repo: string) {
+  var user = process.env.REACT_APP_USER!
+  var pass = process.env.REACT_APP_PASS!
+  console.log("HERE:", user, pass)
   try {
-    axios.get(baseURL + `/repos/${owner}/${repo}`)
+    axios.get(baseURL + `/repos/${owner}/${repo}`, {
+      auth: {
+        username: user,
+        password: pass
+      }
+    })
     .then (res => {
       console.log("Repository")
       return res.data;
@@ -19,8 +23,15 @@ export async function fetchRepo(owner: string, repo: string) {
 }
 
 export async function fetchContributors(owner: string, repo: string) {
+  var user = process.env.REACT_APP_USER!
+  var pass = process.env.REACT_APP_PASS!
   try {
-    axios.get(baseURL + `/repos/${owner}/${repo}/contributors`)
+    axios.get(baseURL + `/repos/${owner}/${repo}/contributors`, {
+      auth: {
+        username: user,
+        password: pass
+      }
+    })
     .then(res => {
       const contributors = res.data;
       console.log("Contributors", contributors)
@@ -31,8 +42,15 @@ export async function fetchContributors(owner: string, repo: string) {
 }
 
 export async function fetchFollowing(follower: string, followee: string) {
+  var user = process.env.REACT_APP_USER!
+  var pass = process.env.REACT_APP_PASS!
   try {
-    axios.get(baseURL +`/users/${follower}/following/${followee}`)
+    axios.get(baseURL +`/users/${follower}/following/${followee}`, {
+      auth: {
+        username: user,
+        password: pass
+      }
+    })
     .then(() => {
       return true;
     })

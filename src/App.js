@@ -99,7 +99,7 @@ async function buildFollowers() {
 
 export default class App extends Component {
   render () {
-    // buildData ()
+    buildData ()
     return (
       <div className="App">
   
