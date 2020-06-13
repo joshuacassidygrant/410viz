@@ -101,7 +101,6 @@ async function appendContributorNodeAndEdge(contributorNode: GraphNode, node: Gr
 
 async function buildFollowingList(contributorNode: GraphNode) {
   var followingData = await fetchFollowingList(contributorNode.label)
-  console.log("followingData", followingData)
   for (const acc of followingData) {
     var followingID: number = acc["id"]
     networkMap[contributorNode.id].push(followingID)
@@ -110,12 +109,10 @@ async function buildFollowingList(contributorNode: GraphNode) {
 }
 
 async function buildNetwork() {
-  console.log("inside buildNetwork")
-  console.log(networkMap)
+  console.log("Building network...")
   for (const follower of Object.keys(networkMap)) {
     for (const followee of networkMap[parseInt(follower)]) {
       if (followee in networkMap) {
-        console.log('adding to network')
         var edge = new GraphEdge(parseInt(follower), followee, 'friend')
         edges.push(edge)
       }
