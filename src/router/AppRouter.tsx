@@ -13,7 +13,6 @@ import { fetchRepo, fetchContributors, fetchFollowing } from "../server/api"
 import GraphEdge from "../models/GraphEdge"
 import GraphNode from "../models/GraphNode"
 import GraphData from "../models/GraphData"
-import { resolve } from "path"
 
 var mockRepoURLs = [
   'https://github.com/facebook/react-native',
@@ -29,22 +28,24 @@ var data: GraphData;
 
 // TODO - buildData from user input and hook up to analyze button
 async function buildData() {
+  console.log('inside buildData')
   await buildRepo()
-  await buildContributors()
-  await buildFollowers()
-  data = new GraphData(nodes, edges)
-  console.log("Data: ", data)
+  // await buildContributors()
+  // await buildFollowers()
+  // data = new GraphData(nodes, edges)
+  // console.log("Data: ", data)
 }
 
 async function buildRepo() {
   console.log("inside build repo")
-  for (var i = 0; i < mockRepoURLs.length; i++) {
+  for (let i = 0; i < mockRepoURLs.length; i++) {
+    console.log("iteration: ", i)
     const params = mockRepoURLs[i].match(/.*\/(.*)\/(.*)$/)!
     var URLOwner = params[1]
     var URLName = params[2]
     console.log("buildData URL:", mockRepoURLs[i])
     var repoData = await fetchRepo(URLOwner, URLName);
-    console.log("repoData:", repoData)
+    console.log("repoData here:", repoData)
     if (repoData) {
       var id = repoData["id"]
       var name = repoData["name"]
@@ -53,6 +54,7 @@ async function buildRepo() {
       nodes.push(node)
     }
   }
+  console.log("Nodes after buildRepo: ", nodes)
 }
 
 async function buildContributors() {
@@ -92,7 +94,7 @@ async function buildContributors() {
 
 async function buildFollowers() {
   var users = []
-  for (const node in nodes) {
+  for (const node of nodes) {
     if (node.type === 'user') {
       users.push(node)
     }
@@ -114,8 +116,12 @@ async function buildFollowers() {
 }
 
 export default class AppRouter extends Component {
-  render() {
+
+  componentDidMount () {
     buildData ()
+  }
+
+  render() {
     return (
       <Router>
       <div className="App">
