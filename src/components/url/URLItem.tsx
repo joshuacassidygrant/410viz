@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import '../style/list.css'
-import URLItemData from "./URLItemData";
+import './list.css'
+import URLItemData from "../../models/URLItemData";
  
 interface URLItemProps {
   delete: (key: number) => void,

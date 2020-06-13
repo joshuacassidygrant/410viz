@@ -2,9 +2,9 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import JSONRepository from "./models/JSONRepository.class"
 // https://medium.com/@enetoOlveda/how-to-use-axios-typescript-like-a-pro-7c882f71e34a
 
-const angularURL = "angular/angular"
-const reactURL = "facebook/react"
-const vueURL = "vuejs/vue"
+export const angularURL = "angular/angular"
+export const reactURL = "facebook/react"
+export const vueURL = "vuejs/vue"
 
 const githubAPI = axios.create ({
   headers: {
@@ -14,7 +14,7 @@ const githubAPI = axios.create ({
   timeout: 1000
 })
 
-async function testRoute () {
+export async function testRoute (): Promise<void> {
   try {
     console.log ("beginning fetch...")
     const res = await githubAPI.get ("/")
@@ -25,7 +25,7 @@ async function testRoute () {
   }
 }
 
-async function fetchRepository (repo: string) {
+export async function fetchRepository (repo: string): Promise<void> {
   try {
     console.log ("beginning fetch...")
     const res = await githubAPI.get (`/repos/${repo}`)
