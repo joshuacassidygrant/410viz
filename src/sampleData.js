@@ -1,3 +1,5 @@
+import GraphData from './components/GraphData';
+
 let graphSampleData = {
     nodes: [
         { id: 1, label: "Node 1", type:"repo", title: "node 1 tootip text" },
@@ -24,6 +26,9 @@ let graphSampleData = {
     ]
 };
 
-module.exports = {
-    graphSampleData
+
+let getGraphSampleData = () => {
+    return new GraphData(graphSampleData.nodes, graphSampleData.edges);
 }
+
+export default getGraphSampleData;
