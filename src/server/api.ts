@@ -3,7 +3,6 @@ import axios from 'axios'
 export async function fetchRepo(owner: string, repo: string): Promise<any|undefined> {
   var user = process.env.REACT_APP_USERNAME!
   var pass = process.env.REACT_APP_PASSWORD!
-  console.log(".env: ", user, pass)
 
   try {
     return await axios.get(`/repos/${owner}/${repo}`, {
@@ -23,19 +22,21 @@ export async function fetchRepo(owner: string, repo: string): Promise<any|undefi
 }
 
 export async function fetchContributors(owner: string, repo: string): Promise<any[]|undefined> {
-  var user = process.env.REACT_APP_USER!
-  var pass = process.env.REACT_APP_PASS!
+  var user = process.env.REACT_APP_USERNAME!
+  var pass = process.env.REACT_APP_PASSWORD!
+  console.log("inside fetchContributors")
+  console.log("args", owner, repo)
+
   try {
-    axios.get(`/repos/${owner}/${repo}/contributors`, {
+    return await axios.get(`/repos/${owner}/${repo}/contributors`, {
       auth: {
         username: user,
         password: pass
       }
     })
     .then(res => {
-      const contributors: any[] = res.data;
-      console.log("Contributors", contributors)
-      return contributors
+      console.log("Contributors", res.data)
+      return res.data
     })
   } catch (e) {
     console.error(e)
@@ -44,8 +45,8 @@ export async function fetchContributors(owner: string, repo: string): Promise<an
 }
 
 export async function fetchFollowing(follower: string, followee: string): Promise<boolean|undefined> {
-  var user = process.env.REACT_APP_USER!
-  var pass = process.env.REACT_APP_PASS!
+  var user = process.env.REACT_APP_USERNAME!
+  var pass = process.env.REACT_APP_PASSWORD!
   try {
     axios.get(`/users/${follower}/following/${followee}`, {
       auth: {
