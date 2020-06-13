@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export async function fetchRepo(owner: string, repo: string) {
-  var user = process.env.REACT_APP_USER!
-  var pass = process.env.REACT_APP_PASS!
+export async function fetchRepo(owner: string, repo: string): Promise<any|undefined> {
+  var user = process.env.REACT_AP_USERNAME!
+  var pass = process.env.REACT_APP_PASSWORD!
 
   try {
     await axios.get(`/repos/${owner}/${repo}`, {
@@ -13,17 +13,17 @@ export async function fetchRepo(owner: string, repo: string) {
     })
     .then(res => {
       console.log("RESULT", res)
-      return true
+      return res.data
     })
   }
   catch (e) {
     console.log("Error", e)
-    return null
+    return undefined
   }
 
 }
 
-export async function fetchContributors(owner: string, repo: string) {
+export async function fetchContributors(owner: string, repo: string): Promise<any[]|undefined> {
   var user = process.env.REACT_APP_USER!
   var pass = process.env.REACT_APP_PASS!
   try {
@@ -34,11 +34,13 @@ export async function fetchContributors(owner: string, repo: string) {
       }
     })
     .then(res => {
-      const contributors = res.data;
+      const contributors: any[] = res.data;
       console.log("Contributors", contributors)
+      return contributors
     })
   } catch (e) {
     console.error(e)
+    return undefined
   }
 }
 
