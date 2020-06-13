@@ -9,7 +9,7 @@ import About from "../components/views/About"
 import Header from "../components/global/Header/Header"
 import NavBar from "../components/global/NavBar/NavBar"
 import "../styles/App.css"
-import { fetchRepo, fetchContributors, fetchFollowing, fetchFollowingList } from "../server/api"
+import { fetchRepo, fetchContributors, fetchFollowingList } from "../server/api"
 import GraphEdge from "../models/GraphEdge"
 import GraphNode from "../models/GraphNode"
 import GraphData from "../models/GraphData"
@@ -24,19 +24,19 @@ var mockRepoURLs = [
 
 var edges: GraphEdge[]  = []
 var nodes: GraphNode[] = []
-var nodeIDs: number[] = []
+var contributorNodeIDs: number[] = []
 var networkMap: { [id: number] : number[]; } = {}
 var data: GraphData;
 
 // TODO - buildData from user input and hook up to analyze button
 async function buildData() {
-  console.log("length start:", Object.keys(networkMap).length)
-  console.log('inside buildData')
+  console.log('Building data...')
   await buildRepo()
   await buildContributors()
   buildNetwork()
+  testNetworkIsValid()
   data = new GraphData(nodes, edges)
-  console.log("Data: ", data)
+  console.log("Analysis complete! Data: ", data)
 }
 
 async function buildRepo() {
@@ -52,7 +52,6 @@ async function buildRepo() {
       var owner = repoData["owner"]["login"]
       var node = new GraphNode(id, name, "repo", owner);
       nodes.push(node)
-      nodeIDs.push(node.id)
     }
   }
 }
@@ -89,10 +88,10 @@ async function buildContributors() {
 }
 
 async function appendContributorNodeAndEdge(contributorNode: GraphNode, node: GraphNode) {
-  if (!nodeIDs.includes(contributorNode.id)) {
+  if (!contributorNodeIDs.includes(contributorNode.id)) {
     nodes.push(contributorNode)
     networkMap[contributorNode.id] = []
-    nodeIDs.push(contributorNode.id)
+    contributorNodeIDs.push(contributorNode.id)
     await buildFollowingList(contributorNode)
   }
 
@@ -107,8 +106,7 @@ async function buildFollowingList(contributorNode: GraphNode) {
     var followingID: number = acc["id"]
     networkMap[contributorNode.id].push(followingID)
   }
-  console.log("added a list to a contributor:", networkMap)
-  console.log("length:", Object.keys(networkMap).length)
+  console.log("Network key count:", Object.keys(networkMap).length)
 }
 
 async function buildNetwork() {
@@ -126,30 +124,18 @@ async function buildNetwork() {
 
 }
 
-async function buildFollowers() {
-  console.log("Building followers...")
-  var users = []
-  for (const node of nodes) {
-    if (node.type === 'user') {
-      users.push(node)
-    }
-  }
-
-  for (let i = 0; i < users.length; i++) {
-    for (let j = 0; j < users.length; j++) {
-      if (i != j) {
-        try {
-          await fetchFollowing(users[i].label, users[j].label)
-          var edge = new GraphEdge(users[i].id, users[j].id, 'friend')
-          edges.push(edge)
-        } catch {
-          // Do nothing
+function testNetworkIsValid() {
+  try {
+    for (const edge of edges) {
+      if (edge.type == "friend") {
+        if (!(edge.from in networkMap) || !(edge.to in networkMap)) {
+          throw new Error("There was an error when building the network")
         }
       }
     }
+  } catch (e) {
+    console.error(e)
   }
-  console.log("Edges after buildFollower", edges)
-
 }
 
 export default class AppRouter extends Component {

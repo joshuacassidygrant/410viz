@@ -52,12 +52,9 @@ export async function fetchFollowingList(username: string) {
       }
     })
     .then((res) => {
-      console.log('success fetch following')
-      console.log('following DATA for ' + username)
       return res.data;
     })
   } catch (e) {
-    console.error("Error at fetchFollowingList", e)
     return undefined
   }
 }
