@@ -41,5 +41,3 @@ export async function fetchRepository (repo: string): Promise<void> {
     console.error("could not fetch. ", error)
   }
 }
-
-fetchRepository (reactURL)

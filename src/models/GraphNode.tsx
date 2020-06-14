@@ -10,4 +10,5 @@ export default class GraphNode {
     this.type = type
     this.title = title
   }
+
 }
