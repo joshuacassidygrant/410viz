@@ -12,6 +12,7 @@ ul li {
   transition: 0.2s;
   color: #444;
   list-style-type: none;;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 ul li:nth-child(odd) {
@@ -23,6 +24,6 @@ ul li:hover {
 }
 
 div.urlList {
-  width: 480px;
+  width: 100%;
   margin: 16px auto;
 }

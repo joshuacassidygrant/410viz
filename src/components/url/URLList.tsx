@@ -87,13 +87,12 @@ class URLList extends React.Component<URLListProps, URLListState> {
             <input type="submit" value="Add" className="addBtn" />
             <input
               type="button"
-              value="Analyze"
+              value="Submit"
               className="addBtn"
               onClick={this.props.handleAnalyze}
             />
           </form>
         </div>
-        {/* TODO: Button to generate Viz from list of URLs */}
         <div>
           <URLItem entries={this.state.items} delete={this.deleteItem} />
         </div>

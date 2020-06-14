@@ -8,7 +8,7 @@ import Home from "../components/views/Home"
 import About from "../components/views/About"
 import Header from "../components/global/Header/Header"
 import NavBar from "../components/global/NavBar/NavBar"
-import "../styles/App.css"
+// import "../styles/App.css"
 
 
 export default class AppRouter extends Component {
