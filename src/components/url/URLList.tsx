@@ -71,7 +71,7 @@ class URLList extends React.Component<URLListProps, URLListState> {
 
   render() {
     return (
-      <div>
+      <div className="urlList">
         <div className="urlForm">
           <form onSubmit={this.addItem}>
             <label>

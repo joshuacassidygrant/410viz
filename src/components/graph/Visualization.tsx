@@ -37,7 +37,6 @@ const nodeClassesToProps = {
       border: "#ff4444",
       background: "#eeeeee",
     },
-    mass: 50,
     size: 50,
     borderWidth: 2,
   },

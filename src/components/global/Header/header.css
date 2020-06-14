@@ -7,7 +7,7 @@
 }
 
 .header {
-  padding: 80px;
+  padding: 16px 80px;
   text-align: center;
   background: #1abc9c;
   color: white;
@@ -15,6 +15,10 @@
 
 .header h1 {
   font-size: 40px;
+}
+
+.header h2 {
+  color: #444;
 }
 
 @media screen and (max-width: 400px) {

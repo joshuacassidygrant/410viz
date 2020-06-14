@@ -10,6 +10,8 @@ ul li {
   background: #eee;
   font-size: 18px;
   transition: 0.2s;
+  color: #444;
+  list-style-type: none;;
 }
 
 ul li:nth-child(odd) {
@@ -18,4 +20,9 @@ ul li:nth-child(odd) {
 
 ul li:hover {
   background: #ddd;
+}
+
+div.urlList {
+  width: 480px;
+  margin: 16px auto;
 }
