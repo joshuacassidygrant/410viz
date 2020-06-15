@@ -7,13 +7,13 @@ import GraphEdge from "../../models/GraphEdge"
 
 const options = {
   layout: {
-    hierarchical: true,
+    hierarchical: false,
   },
   nodes: {
     shape: "hexagon",
     color: {
-      border: "#ff4444",
-      background: "#eeeeee",
+      border: "#44EEEE",
+      background: "#FFFFFF"
     },
     borderWidth: 2,
   },
@@ -21,7 +21,8 @@ const options = {
     color: "#ff4444",
     width: 2,
   },
-  height: "500px",
+  height: "1024px",
+  width: "1024px",
 }
 
 const events = {
@@ -33,26 +34,22 @@ const events = {
 const nodeClassesToProps = {
   repo: {
     shape: "hexagon",
-    color: {
-      border: "#ff4444",
-      background: "#eeeeee",
-    },
     size: 50,
     borderWidth: 2,
+    fontSize: 24
   },
   user: {
     shape: "circle",
-    color: {
-      border: "#ff4444",
-      background: "#eeeeee",
-    },
+    radiusMin: 16,
+    radiusMax: 16,
+    fontSize: 12,
     borderWidth: 2,
   },
 }
 
 const edgeClassesToProps = {
   friend: {
-    color: "#ff4444",
+    color: "#ff44ff",
     width: 2,
   },
   contributor: {
@@ -96,12 +93,14 @@ export default class Visualization extends React.Component<
 
   render() {
     return (
-      <Graph
-        graph={this.state.graph}
-        options={options}
-        events={events}
-        getNetwork={this.initNetworkInstance}
-      />
+      <div className="graphContainer">
+        <Graph
+          graph={this.state.graph}
+          options={options}
+          events={events}
+          getNetwork={this.initNetworkInstance}
+        />
+      </div>
     )
   }
 

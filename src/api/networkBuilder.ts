@@ -9,6 +9,8 @@ var contributorNodeIDs: number[] = []
 var networkMap: { [id: number] : number[]; } = {}
 var data: GraphData;
 
+const contributorMax = 30;
+
 // TODO - buildData from user input and hook up to analyze button
 export default async function buildData(urls: string[], callback: (data: GraphData) => void) {
   console.log('Building data...')
@@ -48,7 +50,7 @@ async function buildContributors() {
     
     if (contributorData) {
       var id, name, contributions, contributorNode;
-      if (contributorData.length < 20) {
+      if (contributorData.length < contributorMax) {
         for (const contributor of contributorData) {
           id = contributor["id"]
           name = contributor["login"]
@@ -57,7 +59,7 @@ async function buildContributors() {
           await appendContributorNodeAndEdge(contributorNode, node)
         }
       } else {
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < contributorMax; i++) {
           id = contributorData[i]["id"]
           name = contributorData[i]["login"]
           contributions = contributorData[i]["contributions"]
